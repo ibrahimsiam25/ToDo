@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<Task *> *)tasksTodo;
 + (NSArray<Task *> *)tasksInProgress;
 + (NSArray<Task *> *)tasksDone;
-
++ (void)deleteTaskById:(NSString *)taskId ;
 
 @end
 
