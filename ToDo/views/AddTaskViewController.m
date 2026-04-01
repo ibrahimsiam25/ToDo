@@ -45,23 +45,7 @@
     [TaskStorage saveTask:self.task];
     [self.navigationController popViewControllerAnimated:YES];
 }
-- (IBAction)statusSeg:(id)sender {
-    UISegmentedControl *seg = (UISegmentedControl *)sender;
-    NSInteger index = seg.selectedSegmentIndex;
-    switch (index) {
-        case 0:
-            self.task.status =   TaskStatusTodo;
-            break;
-        case 1:
-            self.task.status = TaskStatusInProgress;
-            break;
-        case 2:
-            self.task.status = TaskStatusDone;
-            break;
-        default:
-            break;
-    }
-}
+
 - (IBAction)prioritySeg:(id)sender {
     
     UISegmentedControl *seg = (UISegmentedControl *)sender;

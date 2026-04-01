@@ -87,26 +87,14 @@
     }
 }
 
-- (BOOL)isStatusTransitionAllowedFrom:(TaskStatus)fromStatus to:(TaskStatus)toStatus {
-    switch (fromStatus) {
-        case TaskStatusTodo:
-            return YES;
-        case TaskStatusInProgress:
-            return toStatus != TaskStatusTodo;
-        case TaskStatusDone:
-            return toStatus == TaskStatusDone;
-        default:
-            return YES;
-    }
-}
+
 
 - (void)showAlertWithTitle:(NSString *)title message:(NSString *)message {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title
-                                                                   message:message
-                                                            preferredStyle:UIAlertControllerStyleAlert];
+        message:message
+        preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK"
-                                                 style:UIAlertActionStyleDefault
-                                               handler:nil];
+    style:UIAlertActionStyleDefault  handler:nil];
     [alert addAction:ok];
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -118,21 +106,38 @@
 
 - (IBAction)statusSeg:(id)sender {
     UISegmentedControl *seg = (UISegmentedControl *)sender;
-    TaskStatus selectedStatus = [self statusFromSegmentIndex:seg.selectedSegmentIndex];
-
-    if (![self isStatusTransitionAllowedFrom:self.initialStatus to:selectedStatus]) {
-        seg.selectedSegmentIndex = [self segmentIndexForStatus:self.task.status];
-        [self showAlertWithTitle:@"Invalid Status Change"
-                         message:@"This task cannot move back to a previous status."];
-        return;
-    }
-
-    self.task.status = selectedStatus;
+       
+       TaskStatus selectedStatus = [self statusFromSegmentIndex:seg.selectedSegmentIndex];
+     
+      
+    if (self.initialStatus== TaskStatusTodo && selectedStatus == TaskStatusDone) {
+           [self showAlertWithTitle:@"Invalid Status Change"
+                           message:@"Task must go to In Progress first"];
+           
+           seg.selectedSegmentIndex = self.initialStatus;
+           return;
+       }
+             if (self.initialStatus == TaskStatusInProgress && selectedStatus == TaskStatusTodo) {
+           [self showAlertWithTitle:@"Invalid Status Change"
+                           message:@"Cannot move back to To Do"];
+           
+           seg.selectedSegmentIndex = self.initialStatus;
+           return;
+       }
+       
+    if (self.initialStatus == TaskStatusDone) {
+           [self showAlertWithTitle:@"Invalid Status Change"
+                           message:@"Completed task cannot be modified"];
+           
+           seg.selectedSegmentIndex = self.initialStatus;
+           return;
+       }
+         self.task.status = selectedStatus;
 }
 
 - (IBAction)saveBtn:(id)sender {
-    NSString *titleText = [self.titleTxtField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSString *descText = [self.desTxtView.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSString *titleText = self.titleTxtField.text ;
+    NSString *descText = self.desTxtView.text;
 
     if (titleText.length == 0 || descText.length == 0) {
         [self showAlertWithTitle:@"Validation Error"
@@ -140,22 +145,10 @@
         return;
     }
 
-    TaskStatus selectedStatus = self.task.status;
-    if (self.statusSeg) {
-        selectedStatus = [self statusFromSegmentIndex:self.statusSeg.selectedSegmentIndex];
-    }
-
-    TaskPriority selectedPriority = self.task.priority;
-    if (self.prioritySeg) {
-        selectedPriority = [self priorityFromSegmentIndex:self.prioritySeg.selectedSegmentIndex];
-    }
-
-    if (![self isStatusTransitionAllowedFrom:self.initialStatus to:selectedStatus]) {
-        [self showAlertWithTitle:@"Invalid Status Change"
-                         message:@"This task cannot move back to a previous status."];
-        return;
-    }
-
+    TaskStatus selectedStatus =  [self statusFromSegmentIndex:self.statusSeg.selectedSegmentIndex];
+    
+    TaskPriority selectedPriority = [self priorityFromSegmentIndex:self.prioritySeg.selectedSegmentIndex];
+    
     self.task.title = titleText;
     self.task.taskDescription = descText;
     self.task.priority = selectedPriority;
