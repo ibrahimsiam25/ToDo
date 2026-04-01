@@ -18,6 +18,7 @@
     NSArray<Task *> *lowPriorityArr;
     NSArray<Task *> *mediumPriorityArr;
     NSArray<Task *> *highPriorityArr;
+    NSString *searchQuery;
     int filterNo ;
     int sec;
 }
@@ -27,6 +28,7 @@
     [super viewDidLoad];
     self.tabelView.delegate = self;
     self.tabelView.dataSource = self;
+    self.searchBar.delegate = self;
     filterNo =0;
     sec = 3;
     [self loadTasks];
@@ -55,9 +57,20 @@
     NSPredicate *mediumPredicate = [NSPredicate predicateWithFormat:@"priority == %d", TaskPriorityMedium];
     NSPredicate *highPredicate = [NSPredicate predicateWithFormat:@"priority == %d", TaskPriorityHigh];
 
-    lowPriorityArr = [todoArr filteredArrayUsingPredicate:lowPredicate];
-    mediumPriorityArr = [todoArr filteredArrayUsingPredicate:mediumPredicate];
-    highPriorityArr = [todoArr filteredArrayUsingPredicate:highPredicate];
+    NSArray<Task *> *lowArr = [todoArr filteredArrayUsingPredicate:lowPredicate];
+    NSArray<Task *> *mediumArr = [todoArr filteredArrayUsingPredicate:mediumPredicate];
+    NSArray<Task *> *highArr = [todoArr filteredArrayUsingPredicate:highPredicate];
+
+    if (searchQuery != nil && searchQuery.length > 0) {
+        NSPredicate *searchPred = [NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", searchQuery];
+        lowPriorityArr = [lowArr filteredArrayUsingPredicate:searchPred];
+        mediumPriorityArr = [mediumArr filteredArrayUsingPredicate:searchPred];
+        highPriorityArr = [highArr filteredArrayUsingPredicate:searchPred];
+    } else {
+        lowPriorityArr = lowArr;
+        mediumPriorityArr = mediumArr;
+        highPriorityArr = highArr;
+    }
 
     [self.tabelView reloadData];
 }
@@ -225,4 +238,17 @@
     [TaskStorage deleteTaskById:deleteTask.taskId];
     [self loadTasks];
 }
+
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)text {
+    if (text == nil || [text isEqualToString:@""]) {
+        searchQuery = nil;
+    } else {
+        searchQuery = [text copy];
+    }
+    [self loadTasks];
+}
+
+
+
 @end

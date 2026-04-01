@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ToDoViewViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
+@interface ToDoViewViewController : UIViewController <UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *tabelView;
 
