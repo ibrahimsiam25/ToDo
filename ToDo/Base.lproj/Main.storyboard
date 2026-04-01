@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--In Progress-->
         <scene sceneID="x0R-7g-oxR">
             <objects>
                 <viewController id="on1-KM-BLB" sceneMemberID="viewController">
@@ -19,13 +19,13 @@
                         <viewLayoutGuide key="safeArea" id="mI4-Aq-2pP"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 2" image="hourglass" catalog="system" id="MkD-5e-ydD"/>
+                    <tabBarItem key="tabBarItem" title="In Progress" image="hourglass" catalog="system" id="MkD-5e-ydD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1U8-mH-Say" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1570" y="371"/>
         </scene>
-        <!--Item 1-->
+        <!--To Do-->
         <scene sceneID="7DD-su-g4X">
             <objects>
                 <viewController id="CjC-1G-ieZ" customClass="ToDoViewViewController" sceneMemberID="viewController">
@@ -107,7 +107,7 @@
                         <viewLayoutGuide key="safeArea" id="xaq-gR-hqW"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item 1" image="checklist" catalog="system" id="PeF-5A-SlS"/>
+                    <tabBarItem key="tabBarItem" title="To Do" image="checklist" catalog="system" id="PeF-5A-SlS"/>
                     <connections>
                         <outlet property="searchBar" destination="2wQ-6N-cZc" id="uQm-JT-qW5"/>
                         <outlet property="tabelView" destination="6xr-4l-PFc" id="4V4-I6-5eh"/>
@@ -251,7 +251,7 @@
             </objects>
             <point key="canvasLocation" x="664" y="67"/>
         </scene>
-        <!--Item-->
+        <!--Done-->
         <scene sceneID="T9o-RN-vKm">
             <objects>
                 <viewController id="hgP-Xr-qCy" sceneMemberID="viewController">
@@ -261,7 +261,7 @@
                         <viewLayoutGuide key="safeArea" id="RfN-Em-tKY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="checkmark.circle.fill" catalog="system" id="ukp-uI-3wq"/>
+                    <tabBarItem key="tabBarItem" title="Done" image="checkmark.circle.fill" catalog="system" id="ukp-uI-3wq"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dHY-Qp-9tH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
