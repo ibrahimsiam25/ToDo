@@ -73,6 +73,32 @@ static NSString * const kTasksKey = @"tasksArray";
     
 
 }
+
+
++ (void)updateTask:(Task *)task {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *tasks = [[defaults objectForKey:kTasksKey] mutableCopy];
+    if (!tasks) {
+        tasks = [NSMutableArray array];
+    }
+
+    BOOL updated = NO;
+    for (NSUInteger i = 0; i < tasks.count; i++) {
+        NSDictionary *dict = tasks[i];
+        if ([dict[@"taskId"] isEqual:task.taskId]) {
+            tasks[i] = [task toDictionary];
+            updated = YES;
+            break;
+        }
+    }
+
+    if (!updated) {
+        [tasks addObject:[task toDictionary]];
+    }
+
+    [defaults setObject:tasks forKey:kTasksKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 @end
 
 NS_ASSUME_NONNULL_END

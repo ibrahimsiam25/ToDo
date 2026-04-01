@@ -9,6 +9,7 @@
 #import "AddTaskViewController.h"
 #import "../TaskStorage.h"
 #import "../TaskListManager.h"
+#import "TaskDetialsViewController.h"
 
 @interface ToDoViewViewController ()
 
@@ -67,7 +68,7 @@
     
     titleLabel.text = task.title;
     
-    priorityView.backgroundColor = [TaskListManager getPriorityColor:task.priority];
+ priorityView.backgroundColor = [TaskListManager getPriorityColor:task.priority];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     priorityView.layer.cornerRadius = priorityView.frame.size.width / 2;
     priorityView.clipsToBounds = YES;
@@ -76,23 +77,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    User *userDetials = [User new];
-    //    switch (indexPath.section) {
-    //        case 0:
-    //            userDetials = self.data[indexPath.row];
-    //            break;
-    //        case 1:
-    //            userDetials =self.female[indexPath.row];
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //
-    //
-    //    UserDetails *userDetailsView=
-    //        [self.storyboard instantiateViewControllerWithIdentifier:@"UserDetails"];
-    //        userDetailsView.user = userDetials;
-    //        [self.navigationController pushViewController:userDetailsView animated:YES];
+    Task *selected = [self.listManager taskAtIndexPath:indexPath];
+    if (!selected) return;
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    TaskDetialsViewController *details = [self.storyboard instantiateViewControllerWithIdentifier:@"TaskDetialsViewController"];
+    details.task = selected;
+    [self.navigationController pushViewController:details animated:YES];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {

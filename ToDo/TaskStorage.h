@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray<Task *> *)tasksInProgress;
 + (NSArray<Task *> *)tasksDone;
 + (void)deleteTaskById:(NSString *)taskId ;
+// Update existing task (or add if not present)
++ (void)updateTask:(Task *)task;
 
 @end
 
