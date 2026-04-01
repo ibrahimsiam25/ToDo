@@ -18,7 +18,35 @@
     NSArray<Task *> *lowPriorityArr;
     NSArray<Task *> *mediumPriorityArr;
     NSArray<Task *> *highPriorityArr;
+    int filterNo ;
+    int sec;
 }
+
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.tabelView.delegate = self;
+    self.tabelView.dataSource = self;
+    filterNo =0;
+    sec = 3;
+    [self loadTasks];
+}
+- (IBAction)filterSeg:(id)sender {
+    UISegmentedControl *seg  = (UISegmentedControl *) sender;
+    NSInteger index  =seg.selectedSegmentIndex;
+    filterNo = (int)index;
+    sec = filterNo ?   1:3;
+    [self.tabelView reloadData];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadTasks];
+    NSLog(@"viewWillAppear");
+}
+
+
 
 - (void)loadTasks {
     todoArr = [TaskStorage tasksTodo];
@@ -33,36 +61,33 @@
 
     [self.tabelView reloadData];
 }
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tabelView.delegate = self;
-    self.tabelView.dataSource = self;
-    [self loadTasks];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self loadTasks];
-    NSLog(@"viewWillAppear");
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return sec;
 }
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    switch (section) {
-        case 0:
-            return lowPriorityArr.count;
-        case 1:
-            return mediumPriorityArr.count;
-        case 2:
-            return highPriorityArr.count;
-        default:
-            return 0;
-    }
+
+    if (filterNo != 0){
+        switch (filterNo) {
+            case 3:
+                return lowPriorityArr.count;
+            case 2:
+                return mediumPriorityArr.count;
+            case 1:
+                return highPriorityArr.count;
+            default:
+                return 0;
+        }}
+        else{
+        switch (section) {
+            case 0:
+                return lowPriorityArr.count;
+            case 1:
+                return mediumPriorityArr.count;
+            case 2:
+                return highPriorityArr.count;
+            default:
+                return 0;
+        }}
 }
 
 
@@ -70,18 +95,35 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
     
     Task *task  = [Task new];
-    switch (indexPath.section) {
-        case 0:
-            task= lowPriorityArr[indexPath.row];
-            break;
-        case 1:
-            task= mediumPriorityArr[indexPath.row];
-            break;
-        case 2:
-            task= highPriorityArr[indexPath.row];
-            break;
-        default:
-            break;
+    if(filterNo != 0){
+        switch (filterNo) {
+            case 3:
+                task= lowPriorityArr[indexPath.row];
+                break;
+            case 2:
+                task= mediumPriorityArr[indexPath.row];
+                break;
+            case 1:
+                task= highPriorityArr[indexPath.row];
+                break;
+            default:
+                break;
+        }
+    }
+    else{
+        switch (indexPath.section) {
+            case 0:
+                task= lowPriorityArr[indexPath.row];
+                break;
+            case 1:
+                task= mediumPriorityArr[indexPath.row];
+                break;
+            case 2:
+                task= highPriorityArr[indexPath.row];
+                break;
+            default:
+                break;
+        }
     }
 
         UILabel *titleLabel = [cell viewWithTag:1];
@@ -133,16 +175,29 @@
 //        [self.navigationController pushViewController:userDetailsView animated:YES];
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    switch (section) {
-        case 0:
-            return @"Low";
-        case 1:
-            return @"Medium";
-        case 2:
-            return @"High";
-        default:
-            return @"";
+    if(filterNo != 0){
+        switch (filterNo) {
+            case 3:
+                return @"Low";
+            case 2:
+                return @"Medium";
+            case 1:
+                return @"High";
+            default:
+                return @"";
+        }
     }
+    else{
+        switch (section) {
+            case 0:
+                return @"Low";
+            case 1:
+                return @"Medium";
+            case 2:
+                return @"High";
+            default:
+                return @"";
+        }}
 }
 - (IBAction)addBtn:(id)sender {
     AddTaskViewController *addTaskView = [self.storyboard instantiateViewControllerWithIdentifier:@"AddTaskViewController"];

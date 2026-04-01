@@ -58,21 +58,18 @@ static NSString * const kTasksKey = @"tasksArray";
 
 + (void)deleteTaskById:(NSString *)taskId {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableArray *savedDicts = [[defaults objectForKey:kTasksKey] mutableCopy];
-    
-    if (!savedDicts) {
-        return;
-    }
-    
+    NSMutableArray *tasks = [[defaults objectForKey:kTasksKey] mutableCopy];
 
-    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *dict, NSDictionary *bindings) {
-        return ![dict[@"id"] isEqualToString:taskId];
-    }];
-    
-    NSArray *filtered = [savedDicts filteredArrayUsingPredicate:predicate];
-    
-    [defaults setObject:filtered forKey:kTasksKey];
-    [defaults synchronize];
+    if (!tasks) return;
+
+    for (NSDictionary *dict in tasks) {
+        if ([dict[@"taskId"] isEqual:taskId]) {
+            [tasks removeObject:dict];
+            break;
+        }
+    }
+
+    [defaults setObject:tasks forKey:kTasksKey];
     
 
 }

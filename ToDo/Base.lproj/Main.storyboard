@@ -100,7 +100,7 @@
                                     <segment title="Low"/>
                                 </segments>
                                 <connections>
-                                    <action selector="filterSegment:" destination="CjC-1G-ieZ" eventType="valueChanged" id="jBz-kZ-i5l"/>
+                                    <action selector="filterSeg:" destination="CjC-1G-ieZ" eventType="valueChanged" id="pTm-Fc-ee9"/>
                                 </connections>
                             </segmentedControl>
                         </subviews>
@@ -109,7 +109,6 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" image="checklist" catalog="system" id="PeF-5A-SlS"/>
                     <connections>
-                        <outlet property="filterSeg" destination="n87-4Y-csa" id="dHX-q4-Jmi"/>
                         <outlet property="searchBar" destination="2wQ-6N-cZc" id="uQm-JT-qW5"/>
                         <outlet property="tabelView" destination="6xr-4l-PFc" id="4V4-I6-5eh"/>
                     </connections>
