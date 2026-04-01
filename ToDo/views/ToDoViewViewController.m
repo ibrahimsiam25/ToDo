@@ -52,15 +52,15 @@
 
 - (void)loadTasks {
     todoArr = [TaskStorage tasksTodo];
-
+    
     NSPredicate *lowPredicate = [NSPredicate predicateWithFormat:@"priority == %d", TaskPriorityLow];
     NSPredicate *mediumPredicate = [NSPredicate predicateWithFormat:@"priority == %d", TaskPriorityMedium];
     NSPredicate *highPredicate = [NSPredicate predicateWithFormat:@"priority == %d", TaskPriorityHigh];
-
+    
     NSArray<Task *> *lowArr = [todoArr filteredArrayUsingPredicate:lowPredicate];
     NSArray<Task *> *mediumArr = [todoArr filteredArrayUsingPredicate:mediumPredicate];
     NSArray<Task *> *highArr = [todoArr filteredArrayUsingPredicate:highPredicate];
-
+    
     if (searchQuery != nil && searchQuery.length > 0) {
         NSPredicate *searchPred = [NSPredicate predicateWithFormat:@"title CONTAINS[cd] %@", searchQuery];
         lowPriorityArr = [lowArr filteredArrayUsingPredicate:searchPred];
@@ -71,14 +71,14 @@
         mediumPriorityArr = mediumArr;
         highPriorityArr = highArr;
     }
-
+    
     [self.tabelView reloadData];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return sec;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
+    
     if (filterNo != 0){
         switch (filterNo) {
             case 3:
@@ -90,7 +90,7 @@
             default:
                 return 0;
         }}
-        else{
+    else{
         switch (section) {
             case 0:
                 return lowPriorityArr.count;
@@ -138,13 +138,13 @@
                 break;
         }
     }
-
-        UILabel *titleLabel = [cell viewWithTag:1];
-        UIView *priorityView = [cell viewWithTag:2];
-
-  
-        titleLabel.text = task.title;
-
+    
+    UILabel *titleLabel = [cell viewWithTag:1];
+    UIView *priorityView = [cell viewWithTag:2];
+    
+    
+    titleLabel.text = task.title;
+    
     switch (task.priority) {
         case TaskPriorityHigh:
             priorityView.backgroundColor = [UIColor systemRedColor];
@@ -160,83 +160,111 @@
             break;
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        priorityView.layer.cornerRadius = priorityView.frame.size.width / 2;
-        priorityView.clipsToBounds = YES;
-   
-        return cell;
+    priorityView.layer.cornerRadius = priorityView.frame.size.width / 2;
+    priorityView.clipsToBounds = YES;
+    
+    return cell;
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-//    User *userDetials = [User new];
-//    switch (indexPath.section) {
-//        case 0:
-//            userDetials = self.data[indexPath.row];
-//            break;
-//        case 1:
-//            userDetials =self.female[indexPath.row];
-//            break;
-//        default:
-//            break;
-//    }
-//    
-//
-//    UserDetails *userDetailsView=
-//        [self.storyboard instantiateViewControllerWithIdentifier:@"UserDetails"];
-//        userDetailsView.user = userDetials;
-//        [self.navigationController pushViewController:userDetailsView animated:YES];
+    //    User *userDetials = [User new];
+    //    switch (indexPath.section) {
+    //        case 0:
+    //            userDetials = self.data[indexPath.row];
+    //            break;
+    //        case 1:
+    //            userDetials =self.female[indexPath.row];
+    //            break;
+    //        default:
+    //            break;
+    //    }
+    //
+    //
+    //    UserDetails *userDetailsView=
+    //        [self.storyboard instantiateViewControllerWithIdentifier:@"UserDetails"];
+    //        userDetailsView.user = userDetials;
+    //        [self.navigationController pushViewController:userDetailsView animated:YES];
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    if(filterNo != 0){
+    if (filterNo != 0) {
         switch (filterNo) {
             case 3:
-                return @"Low";
+                return (lowPriorityArr.count > 0) ? @"Low" : nil;
             case 2:
-                return @"Medium";
+                return (mediumPriorityArr.count > 0) ? @"Medium" : nil;
             case 1:
-                return @"High";
+                return (highPriorityArr.count > 0) ? @"High" : nil;
             default:
-                return @"";
+                return nil;
         }
-    }
-    else{
+    } else {
         switch (section) {
             case 0:
-                return @"Low";
+                return (lowPriorityArr.count > 0) ? @"Low" : nil;
             case 1:
-                return @"Medium";
+                return (mediumPriorityArr.count > 0) ? @"Medium" : nil;
             case 2:
-                return @"High";
+                return (highPriorityArr.count > 0) ? @"High" : nil;
             default:
-                return @"";
-        }}
+                return nil;
+        }
+    }
 }
 - (IBAction)addBtn:(id)sender {
     AddTaskViewController *addTaskView = [self.storyboard instantiateViewControllerWithIdentifier:@"AddTaskViewController"];
     [self.navigationController pushViewController:addTaskView animated:YES];
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    Task *deleteTask = [Task new];
-    switch (indexPath.section) {
-        case 0:
-     deleteTask= lowPriorityArr[indexPath.row];
-            break;
-        case 1:
-            deleteTask= mediumPriorityArr[indexPath.row];
-                   break;
-        case 2:
-            deleteTask= highPriorityArr[indexPath.row];
-                   break;
-            
-        default:
-            break;
-      
-         
+     
+    Task *deleteTask = nil;
+    if (filterNo != 0) {
+        switch (filterNo) {
+            case 3:
+                
+                deleteTask = lowPriorityArr[indexPath.row];
+                
+                break;
+            case 2:
+                
+                deleteTask = mediumPriorityArr[indexPath.row];
+                
+                break;
+            case 1:
+                
+                deleteTask = highPriorityArr[indexPath.row];
+                
+                break;
+            default:
+                break;
+        }
+    } else {
+        switch (indexPath.section) {
+            case 0:
+                
+                deleteTask = lowPriorityArr[indexPath.row];
+                
+                break;
+            case 1:
+                
+                deleteTask = mediumPriorityArr[indexPath.row];
+                
+                break;
+            case 2:
+                
+                deleteTask = highPriorityArr[indexPath.row];
+                
+                break;
+            default:
+                break;
+        }
     }
     
-    [TaskStorage deleteTaskById:deleteTask.taskId];
-    [self loadTasks];
+    if (deleteTask) {
+        [TaskStorage deleteTaskById:deleteTask.taskId];
+        [self loadTasks];
+    }
 }
 
 
