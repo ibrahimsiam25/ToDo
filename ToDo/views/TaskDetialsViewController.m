@@ -17,13 +17,23 @@
 
 @implementation TaskDetialsViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.titleTxtField.enabled =NO;
+    self.desTxtView.editable =NO;
+    self.titleTxtField.backgroundColor = [UIColor systemGray5Color];
+    self.desTxtView.backgroundColor = [UIColor systemGray5Color];
     self.initialStatus = self.task.status;
     [self fillUIFromTask];
 }
-
+- (IBAction)editBtn:(id)sender {
+    NSLog(@"fdfsfdsd");
+    self.titleTxtField.enabled =YES;
+    self.desTxtView.editable =YES;
+    self.titleTxtField.backgroundColor = [UIColor whiteColor];
+    self.desTxtView.backgroundColor = [UIColor whiteColor];
+}
 - (void)fillUIFromTask {
     if (!self.task) {
         return;
