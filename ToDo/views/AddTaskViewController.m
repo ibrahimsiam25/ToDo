@@ -19,6 +19,15 @@
     [self setupDefaultTask];
     [self setupDateButton];
     [self requestNotificationPermission];
+    self.titleTxtField.layer.cornerRadius = 10;
+    self.titleTxtField.layer.borderWidth = 1;
+    self.titleTxtField.layer.borderColor= [UIColor lightGrayColor].CGColor;
+    self.titleTxtField.clipsToBounds = YES;
+    
+    self.desTxtView.layer.cornerRadius = 10;
+    self.desTxtView.layer.borderWidth = 1;
+    self.desTxtView.layer.borderColor= [UIColor lightGrayColor].CGColor;
+    self.desTxtView.clipsToBounds = YES;
 }
 
 

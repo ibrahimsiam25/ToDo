@@ -17,22 +17,47 @@
 
 @implementation TaskDetialsViewController
 
-
+{
+    bool btnStatus ;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.titleTxtField.enabled =NO;
     self.desTxtView.editable =NO;
+    btnStatus =NO;
     self.titleTxtField.backgroundColor = [UIColor systemGray5Color];
     self.desTxtView.backgroundColor = [UIColor systemGray5Color];
     self.initialStatus = self.task.status;
+    self.titleTxtField.layer.cornerRadius = 10;
+    self.titleTxtField.layer.borderWidth = 1;
+    self.titleTxtField.layer.borderColor= [UIColor lightGrayColor].CGColor;
+    self.titleTxtField.clipsToBounds = YES;
+    
+    self.desTxtView.layer.cornerRadius = 10;
+    self.desTxtView.layer.borderWidth = 1;
+    self.desTxtView.layer.borderColor= [UIColor lightGrayColor].CGColor;
+    self.desTxtView.clipsToBounds = YES;
     [self fillUIFromTask];
 }
 - (IBAction)editBtn:(id)sender {
-    NSLog(@"fdfsfdsd");
-    self.titleTxtField.enabled =YES;
-    self.desTxtView.editable =YES;
-    self.titleTxtField.backgroundColor = [UIColor whiteColor];
-    self.desTxtView.backgroundColor = [UIColor whiteColor];
+    if(btnStatus){
+        self.titleTxtField.enabled =NO;
+        self.desTxtView.editable =NO;
+        self.titleTxtField.backgroundColor = [UIColor systemGray5Color];
+        self.desTxtView.backgroundColor = [UIColor systemGray5Color];
+        UIButton *button = (UIButton *)sender;
+        [button setTitle:@"Edit" forState:UIControlStateNormal];
+        btnStatus = NO;
+    }
+    else{
+        self.titleTxtField.enabled =YES;
+        self.desTxtView.editable =YES;
+        self.titleTxtField.backgroundColor = [UIColor whiteColor];
+        self.desTxtView.backgroundColor = [UIColor whiteColor];
+        UIButton *button = (UIButton *)sender;
+        [button setTitle:@"Cancel" forState:UIControlStateNormal];
+        btnStatus = YES;
+    }
 }
 - (void)fillUIFromTask {
     if (!self.task) {
