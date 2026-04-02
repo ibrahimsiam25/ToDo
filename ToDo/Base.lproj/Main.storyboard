@@ -246,12 +246,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dte-Pi-Cke">
+                                <rect key="frame" x="16" y="520" width="361" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="Select Date"/>
+                                <connections>
+                                    <action selector="showDatePickerSheet:" destination="avw-27-FOS" eventType="touchUpInside" id="dCh-An-geD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="szc-E8-Zs0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
                         <outlet property="DesTxtView" destination="FZl-VQ-fA8" id="nXY-Ag-cdm"/>
+                        <outlet property="selectDateButton" destination="Dte-Pi-Cke" id="out-le-dtP"/>
                         <outlet property="desTxtView" destination="FZl-VQ-fA8" id="1ue-tz-ZqT"/>
                         <outlet property="titleTxtField" destination="IZ3-Ni-0LW" id="CM6-ro-Dwa"/>
                     </connections>

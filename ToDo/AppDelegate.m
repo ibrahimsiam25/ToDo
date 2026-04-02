@@ -15,8 +15,24 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    [UNUserNotificationCenter currentNotificationCenter].delegate = self;
+
     return YES;
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler {
+    if (@available(iOS 14.0, *)) {
+        completionHandler(UNNotificationPresentationOptionBanner |
+                          UNNotificationPresentationOptionList |
+                          UNNotificationPresentationOptionSound |
+                          UNNotificationPresentationOptionBadge);
+    } else {
+        completionHandler(UNNotificationPresentationOptionAlert |
+                          UNNotificationPresentationOptionSound |
+                          UNNotificationPresentationOptionBadge);
+    }
 }
 
 

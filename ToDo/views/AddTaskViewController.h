@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AddTaskViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextView *desTxtView;
 @property (weak, nonatomic) IBOutlet UITextField *titleTxtField;
+@property (weak, nonatomic) IBOutlet UIButton *selectDateButton;
+@property (strong, nonatomic) UIDatePicker *datePicker;
 @property Task *task;
 @end
 
