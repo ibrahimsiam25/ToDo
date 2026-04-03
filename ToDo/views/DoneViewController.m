@@ -6,6 +6,7 @@
 //
 
 #import "DoneViewController.h"
+#import "../AppDelegate.h"
 #import "AddTaskViewController.h"
 #import "../TaskStorage.h"
 #import "../TaskListManager.h"
@@ -20,12 +21,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [ThemeHelper appBackgroundColor];
+    [ThemeHelper styleTableView:self.tabelView];
    
     self.listManager = [[TaskListManager alloc] init];
     
     self.tabelView.delegate = self;
     self.tabelView.dataSource = self;
     self.searchBar.delegate = self;
+
+    self.searchBar.backgroundImage = [[UIImage alloc] init];
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.barTintColor = [UIColor clearColor];
+    self.searchBar.backgroundColor = [UIColor clearColor];
     
     [self loadTasks];
 }
@@ -58,6 +66,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
+    [ThemeHelper styleCardCell:cell];
     
     Task *task = [self.listManager taskAtIndexPath:indexPath];
     
@@ -68,7 +77,12 @@
     
  priorityView.backgroundColor = [TaskListManager getPriorityColor:task.priority];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    priorityView.layer.cornerRadius = priorityView.frame.size.width / 2;
+     CGRect priorityFrame = priorityView.frame;
+     CGFloat verticalInset = 6.0;
+     priorityFrame.origin.y = verticalInset;
+     priorityFrame.size.height = MAX(0.0, cell.contentView.bounds.size.height - (verticalInset * 2.0));
+     priorityView.frame = priorityFrame;
+     priorityView.layer.cornerRadius = 2.0;
     priorityView.clipsToBounds = YES;
     
     return cell;

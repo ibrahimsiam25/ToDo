@@ -6,6 +6,7 @@
 //
 
 #import "AddTaskViewController.h"
+#import "../AppDelegate.h"
 #import "../Task.h"
 #import "../TaskStorage.h"
 
@@ -13,21 +14,37 @@
 @implementation AddTaskViewController
 
 
+
+- (void)styleSubviews:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subview;
+            NSArray<NSString *> *actions = [btn actionsForTarget:self forControlEvent:UIControlEventTouchUpInside];
+            if ([actions containsObject:@"addTask:"] || [actions containsObject:@"showDatePickerSheet:"]) {
+                [ThemeHelper stylePrimaryButton:btn];
+            }
+        }
+        [self styleSubviews:subview];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    self.view.backgroundColor = [ThemeHelper appBackgroundColor];
 
     [self setupDefaultTask];
     [self setupDateButton];
     [self requestNotificationPermission];
-    self.titleTxtField.layer.cornerRadius = 10;
-    self.titleTxtField.layer.borderWidth = 1;
-    self.titleTxtField.layer.borderColor= [UIColor lightGrayColor].CGColor;
-    self.titleTxtField.clipsToBounds = YES;
-    
-    self.desTxtView.layer.cornerRadius = 10;
-    self.desTxtView.layer.borderWidth = 1;
-    self.desTxtView.layer.borderColor= [UIColor lightGrayColor].CGColor;
-    self.desTxtView.clipsToBounds = YES;
+
+    [ThemeHelper styleTextField:self.titleTxtField];
+    [ThemeHelper styleTextView:self.desTxtView];
+    [self styleSubviews:self.view];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self styleSubviews:self.view];
 }
 
 
@@ -59,11 +76,12 @@
         return;
     }
 
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 50)];
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectZero];
     self.datePicker.datePickerMode = UIDatePickerModeDateAndTime;
     if (@available(iOS 14.0, *)) {
         self.datePicker.preferredDatePickerStyle = UIDatePickerStyleWheels;
     }
+    self.datePicker.translatesAutoresizingMaskIntoConstraints = NO;
     [self.datePicker addTarget:self action:@selector(dateChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
@@ -80,20 +98,30 @@
 
 - (void)showDatePickerSheet:(id)sender {
     UIViewController *sheetVC = [[UIViewController alloc] init];
-    sheetVC.view.backgroundColor = [UIColor systemBackgroundColor];
+    sheetVC.view.backgroundColor = [ThemeHelper cardBackgroundColor];
 
     [self configureDatePickerIfNeeded];
     
     self.datePicker.date = self.task.date ?: [NSDate date];
     self.datePicker.minimumDate = [NSDate date];
-    self.datePicker.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.datePicker.backgroundColor = [ThemeHelper cardBackgroundColor];
     [sheetVC.view addSubview:self.datePicker];
+
+    [NSLayoutConstraint activateConstraints:@[
+        [self.datePicker.leadingAnchor constraintEqualToAnchor:sheetVC.view.leadingAnchor constant:12],
+        [self.datePicker.trailingAnchor constraintEqualToAnchor:sheetVC.view.trailingAnchor constant:-12],
+        [self.datePicker.topAnchor constraintEqualToAnchor:sheetVC.view.topAnchor constant:16],
+        [self.datePicker.heightAnchor constraintEqualToConstant:216]
+    ]];
 
     if (@available(iOS 15.0, *)) {
         UISheetPresentationController *sheet = sheetVC.sheetPresentationController;
         sheet.detents = @[[UISheetPresentationControllerDetent mediumDetent]];
         sheet.prefersGrabberVisible = YES;
+        sheet.preferredCornerRadius = 28;
     }
+
+    sheetVC.preferredContentSize = CGSizeMake(self.view.bounds.size.width, 260);
 
     [self presentViewController:sheetVC animated:YES completion:nil];
 }

@@ -13,3 +13,17 @@
 
 @end
 
+
+@interface ThemeHelper : NSObject
++ (UIColor *)appBackgroundColor;
++ (UIColor *)cardBackgroundColor;
++ (UIColor *)accentPurpleColor;
++ (UIColor *)textPrimaryColor;
++ (UIColor *)textSecondaryColor;
++ (void)applyGlobalTheme;
++ (void)styleCardCell:(UITableViewCell *)cell;
++ (void)styleTableView:(UITableView *)tableView;
++ (void)styleTextField:(UITextField *)textField;
++ (void)styleTextView:(UITextView *)textView;
++ (void)stylePrimaryButton:(UIButton *)button;
+@end

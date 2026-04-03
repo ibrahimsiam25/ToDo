@@ -6,6 +6,7 @@
 //
 
 #import "TaskDetialsViewController.h"
+#import "../AppDelegate.h"
 #import "../TaskStorage.h"
 
  
@@ -20,45 +21,99 @@
 {
     bool btnStatus ;
 }
+
+- (void)updateInputAppearanceForEditing:(BOOL)isEditing {
+    UIColor *borderColor = isEditing
+        ? [[ThemeHelper accentPurpleColor] colorWithAlphaComponent:0.85]
+        : [[ThemeHelper accentPurpleColor] colorWithAlphaComponent:0.25];
+
+    UIColor *backgroundColor = isEditing
+        ? [[ThemeHelper accentPurpleColor] colorWithAlphaComponent:0.20]
+        : [ThemeHelper cardBackgroundColor];
+
+    self.titleTxtField.backgroundColor = backgroundColor;
+    self.desTxtView.backgroundColor = backgroundColor;
+    self.titleTxtField.textColor = [ThemeHelper textPrimaryColor];
+    self.desTxtView.textColor = [ThemeHelper textPrimaryColor];
+
+    self.titleTxtField.layer.cornerRadius = 14;
+    self.desTxtView.layer.cornerRadius = 14;
+    self.titleTxtField.layer.borderWidth = 1.2;
+    self.desTxtView.layer.borderWidth = 1.2;
+    self.titleTxtField.layer.borderColor = borderColor.CGColor;
+    self.desTxtView.layer.borderColor = borderColor.CGColor;
+}
+
+- (void)styleSubviews:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subview;
+            NSString *title = [btn titleForState:UIControlStateNormal];
+            NSArray<NSString *> *actions = [btn actionsForTarget:self forControlEvent:UIControlEventTouchUpInside];
+            if ([title isEqualToString:@"Edit"] || [title isEqualToString:@"Cancel"]) {
+                btn.hidden = YES;
+                btn.alpha = 0;
+            } else if ([title isEqualToString:@"Save"] || [title isEqualToString:@"Add"] || [actions containsObject:@"saveBtn:"]) {
+                [ThemeHelper stylePrimaryButton:btn];
+            }
+        }
+        [self styleSubviews:subview];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.titleTxtField.enabled =NO;
-    self.desTxtView.editable =NO;
-    btnStatus =NO;
-    self.titleTxtField.backgroundColor = [UIColor systemGray5Color];
-    self.desTxtView.backgroundColor = [UIColor systemGray5Color];
-    self.initialStatus = self.task.status;
-    self.titleTxtField.layer.cornerRadius = 10;
-    self.titleTxtField.layer.borderWidth = 1;
-    self.titleTxtField.layer.borderColor= [UIColor lightGrayColor].CGColor;
-    self.titleTxtField.clipsToBounds = YES;
     
-    self.desTxtView.layer.cornerRadius = 10;
-    self.desTxtView.layer.borderWidth = 1;
-    self.desTxtView.layer.borderColor= [UIColor lightGrayColor].CGColor;
-    self.desTxtView.clipsToBounds = YES;
-    [self fillUIFromTask];
+    self.view.backgroundColor = [ThemeHelper appBackgroundColor];
+    
+    self.titleTxtField.enabled = NO;
+    self.desTxtView.editable = NO;
+    btnStatus = NO;
+    
+    [ThemeHelper styleTextField:self.titleTxtField];
+    [ThemeHelper styleTextView:self.desTxtView];
+    [self updateInputAppearanceForEditing:NO];
+    
+    self.initialStatus = self.task.status;
+    
+    // Add Edit Button to Nav Bar and Hide Storyboard one if found
+    UIBarButtonItem *editItem = [[UIBarButtonItem alloc] initWithTitle:@"Edit" style:UIBarButtonItemStylePlain target:self action:@selector(navEditBtn:)];
+    self.navigationItem.rightBarButtonItem = editItem;
+
+    
+    // Optional: Hide the old edit button from view by iterating subviews (since we don't have its specific outlet in header)
+    [self styleSubviews:self.view];
+[self fillUIFromTask];
 }
-- (IBAction)editBtn:(id)sender {
-    if(btnStatus){
-        self.titleTxtField.enabled =NO;
-        self.desTxtView.editable =NO;
-        self.titleTxtField.backgroundColor = [UIColor systemGray5Color];
-        self.desTxtView.backgroundColor = [UIColor systemGray5Color];
-        UIButton *button = (UIButton *)sender;
-        [button setTitle:@"Edit" forState:UIControlStateNormal];
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    [self styleSubviews:self.view];
+    [self updateInputAppearanceForEditing:btnStatus];
+}
+
+
+- (void)navEditBtn:(UIBarButtonItem *)sender {
+    if (btnStatus) { // Canceling edit mode
+        self.titleTxtField.enabled = NO;
+        self.desTxtView.editable = NO;
+        [self updateInputAppearanceForEditing:NO];
+        sender.title = @"Edit";
+        sender.tintColor = [ThemeHelper accentPurpleColor];
         btnStatus = NO;
-    }
-    else{
-        self.titleTxtField.enabled =YES;
-        self.desTxtView.editable =YES;
-        self.titleTxtField.backgroundColor = [UIColor whiteColor];
-        self.desTxtView.backgroundColor = [UIColor whiteColor];
-        UIButton *button = (UIButton *)sender;
-        [button setTitle:@"Cancel" forState:UIControlStateNormal];
+    } else { // Entering edit mode
+        self.titleTxtField.enabled = YES;
+        self.desTxtView.editable = YES;
+        [self updateInputAppearanceForEditing:YES];
+        sender.title = @"Cancel";
+        sender.tintColor = [UIColor systemRedColor];
         btnStatus = YES;
     }
 }
+
+
+
+
 - (void)fillUIFromTask {
     if (!self.task) {
         return;

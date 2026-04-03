@@ -354,15 +354,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTO-NN-top">
-                                <rect key="frame" x="301" y="118" width="81" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Edit"/>
-                                <connections>
-                                    <action selector="editBtn:" destination="Qal-fy-caE" eventType="touchUpInside" id="6Ui-XX-8Z4"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="akg-gh-mX7"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

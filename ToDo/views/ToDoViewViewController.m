@@ -6,6 +6,7 @@
 //
 
 #import "ToDoViewViewController.h"
+#import "../AppDelegate.h"
 #import "AddTaskViewController.h"
 #import "../TaskStorage.h"
 #import "../TaskListManager.h"
@@ -19,8 +20,28 @@
 
 @implementation ToDoViewViewController
 
+- (void)styleTopAddButtonIfNeededInView:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UIButton class]]) {
+            UIButton *button = (UIButton *)subview;
+            NSArray<NSString *> *actions = [button actionsForTarget:self forControlEvent:UIControlEventTouchUpInside];
+            if ([actions containsObject:@"addBtn:"]) {
+                [button setTitle:@"" forState:UIControlStateNormal];
+                UIImage *plusImage = [UIImage systemImageNamed:@"plus"];
+                [button setImage:plusImage forState:UIControlStateNormal];
+                button.tintColor = [UIColor whiteColor];
+                [ThemeHelper stylePrimaryButton:button];
+                button.layer.cornerRadius = 12.0;
+            }
+        }
+        [self styleTopAddButtonIfNeededInView:subview];
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [ThemeHelper appBackgroundColor];
+    [ThemeHelper styleTableView:self.tabelView];
     
     self.listManager = [[TaskListManager alloc] init];
     
@@ -28,8 +49,14 @@
     self.tabelView.dataSource = self;
     self.searchBar.delegate = self;
     
-    [self loadTasks];
-}
+    self.searchBar.backgroundImage = [[UIImage alloc] init];
+    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    self.searchBar.barTintColor = [UIColor clearColor];
+    self.searchBar.backgroundColor = [UIColor clearColor];
+
+    [self styleTopAddButtonIfNeededInView:self.view];
+    
+    [self loadTasks];}
 
 - (IBAction)filterSeg:(id)sender {
     UISegmentedControl *seg  = (UISegmentedControl *) sender;
@@ -60,6 +87,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TaskCell" forIndexPath:indexPath];
+    [ThemeHelper styleCardCell:cell];
     
     Task *task = [self.listManager taskAtIndexPath:indexPath];
     
@@ -68,12 +96,20 @@
     
     titleLabel.text = task.title;
     
- priorityView.backgroundColor = [TaskListManager getPriorityColor:task.priority];
+
+    priorityView.backgroundColor = [TaskListManager getPriorityColor:task.priority];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    priorityView.layer.cornerRadius = priorityView.frame.size.width / 2;
+    // Keep the priority bar inside the rounded card margin.
+    CGRect priorityFrame = priorityView.frame;
+    CGFloat verticalInset = 6.0;
+    priorityFrame.origin.y = verticalInset;
+    priorityFrame.size.height = MAX(0.0, cell.contentView.bounds.size.height - (verticalInset * 2.0));
+    priorityView.frame = priorityFrame;
+    priorityView.layer.cornerRadius = 2.0;
     priorityView.clipsToBounds = YES;
     
     return cell;
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
