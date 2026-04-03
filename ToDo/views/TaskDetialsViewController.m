@@ -64,7 +64,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+
     self.view.backgroundColor = [ThemeHelper appBackgroundColor];
+    self.view.tintColor = [ThemeHelper accentPurpleColor];
     
     self.titleTxtField.enabled = NO;
     self.desTxtView.editable = NO;
@@ -72,6 +74,7 @@
     
     [ThemeHelper styleTextField:self.titleTxtField];
     [ThemeHelper styleTextView:self.desTxtView];
+    [ThemeHelper styleSegmentedControlsInView:self.view];
     [self updateInputAppearanceForEditing:NO];
     
     self.initialStatus = self.task.status;
@@ -90,6 +93,11 @@
     [super viewDidLayoutSubviews];
     [self styleSubviews:self.view];
     [self updateInputAppearanceForEditing:btnStatus];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 

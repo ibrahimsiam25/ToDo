@@ -65,13 +65,40 @@
 + (void)applyGlobalTheme {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [[UITabBar appearance] setTintColor:[self accentPurpleColor]];
-        [[UITabBar appearance] setBarTintColor:[self appBackgroundColor]];
-        [[UITabBar appearance] setUnselectedItemTintColor:[self textSecondaryColor]];
-        
-        [[UINavigationBar appearance] setTintColor:[self accentPurpleColor]];
-        [[UINavigationBar appearance] setBarTintColor:[self appBackgroundColor]];
-        
+        if (@available(iOS 13.0, *)) {
+            UINavigationBarAppearance *navAppearance = [[UINavigationBarAppearance alloc] init];
+            [navAppearance configureWithOpaqueBackground];
+            navAppearance.backgroundColor = [self appBackgroundColor];
+            navAppearance.shadowColor = [UIColor clearColor];
+            navAppearance.titleTextAttributes = @{ NSForegroundColorAttributeName: [self textPrimaryColor] };
+            navAppearance.largeTitleTextAttributes = @{ NSForegroundColorAttributeName: [self textPrimaryColor] };
+
+            [UINavigationBar appearance].standardAppearance = navAppearance;
+            [UINavigationBar appearance].scrollEdgeAppearance = navAppearance;
+            [UINavigationBar appearance].compactAppearance = navAppearance;
+            [UINavigationBar appearance].tintColor = [self accentPurpleColor];
+
+            UITabBarAppearance *tabAppearance = [[UITabBarAppearance alloc] init];
+            [tabAppearance configureWithTransparentBackground];
+            tabAppearance.backgroundColor = [self appBackgroundColor];
+            tabAppearance.shadowColor = [UIColor clearColor];
+
+            [UITabBar appearance].standardAppearance = tabAppearance;
+            if (@available(iOS 15.0, *)) {
+                [UITabBar appearance].scrollEdgeAppearance = tabAppearance;
+            }
+            [UITabBar appearance].translucent = NO;
+            [UITabBar appearance].backgroundColor = [self appBackgroundColor];
+            [UITabBar appearance].tintColor = [self accentPurpleColor];
+            [UITabBar appearance].unselectedItemTintColor = [self textSecondaryColor];
+        } else {
+            [[UITabBar appearance] setTintColor:[self accentPurpleColor]];
+            [[UITabBar appearance] setBarTintColor:[self appBackgroundColor]];
+            [[UITabBar appearance] setUnselectedItemTintColor:[self textSecondaryColor]];
+            [[UINavigationBar appearance] setTintColor:[self accentPurpleColor]];
+            [[UINavigationBar appearance] setBarTintColor:[self appBackgroundColor]];
+        }
+
         [[UISegmentedControl appearance] setSelectedSegmentTintColor:[self accentPurpleColor]];
     });
 }
@@ -173,5 +200,49 @@
     button.titleLabel.font = [UIFont boldSystemFontOfSize:17];
     button.layer.cornerRadius = button.frame.size.height > 0 ? button.frame.size.height / 2.0 : 20.0;
     button.clipsToBounds = YES;
+}
+
++ (void)styleSearchBar:(UISearchBar *)searchBar {
+    if (!searchBar) return;
+
+    searchBar.backgroundImage = [[UIImage alloc] init];
+    searchBar.searchBarStyle = UISearchBarStyleMinimal;
+    searchBar.barTintColor = [UIColor clearColor];
+    searchBar.backgroundColor = [UIColor clearColor];
+    searchBar.tintColor = [self accentPurpleColor];
+
+    if (@available(iOS 13.0, *)) {
+        UITextField *field = searchBar.searchTextField;
+        field.backgroundColor = [self cardBackgroundColor];
+        field.textColor = [self textPrimaryColor];
+        field.layer.cornerRadius = 12;
+        field.layer.masksToBounds = YES;
+        field.attributedPlaceholder = [[NSAttributedString alloc] initWithString:field.placeholder ?: @"Search"
+                                                                       attributes:@{NSForegroundColorAttributeName: [[self textSecondaryColor] colorWithAlphaComponent:0.8]}];
+    }
+}
+
++ (void)styleSegmentedControl:(UISegmentedControl *)segmentedControl {
+    if (!segmentedControl) return;
+
+    segmentedControl.backgroundColor = [self cardBackgroundColor];
+    segmentedControl.selectedSegmentTintColor = [self accentPurpleColor];
+    segmentedControl.layer.cornerRadius = 10;
+    segmentedControl.layer.masksToBounds = YES;
+    [segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [self textSecondaryColor],
+                                               NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold]}
+                                    forState:UIControlStateNormal];
+    [segmentedControl setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor],
+                                               NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightSemibold]}
+                                    forState:UIControlStateSelected];
+}
+
++ (void)styleSegmentedControlsInView:(UIView *)view {
+    for (UIView *subview in view.subviews) {
+        if ([subview isKindOfClass:[UISegmentedControl class]]) {
+            [self styleSegmentedControl:(UISegmentedControl *)subview];
+        }
+        [self styleSegmentedControlsInView:subview];
+    }
 }
 @end

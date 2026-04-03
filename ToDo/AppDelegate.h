@@ -26,4 +26,7 @@
 + (void)styleTextField:(UITextField *)textField;
 + (void)styleTextView:(UITextView *)textView;
 + (void)stylePrimaryButton:(UIButton *)button;
++ (void)styleSearchBar:(UISearchBar *)searchBar;
++ (void)styleSegmentedControl:(UISegmentedControl *)segmentedControl;
++ (void)styleSegmentedControlsInView:(UIView *)view;
 @end

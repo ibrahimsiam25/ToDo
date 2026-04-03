@@ -30,7 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
+  
     self.view.backgroundColor = [ThemeHelper appBackgroundColor];
 
     [self setupDefaultTask];
@@ -39,12 +40,18 @@
 
     [ThemeHelper styleTextField:self.titleTxtField];
     [ThemeHelper styleTextView:self.desTxtView];
+    [ThemeHelper styleSegmentedControlsInView:self.view];
     [self styleSubviews:self.view];
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self styleSubviews:self.view];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 

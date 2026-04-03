@@ -6,6 +6,7 @@
 //
 
 #import "SceneDelegate.h"
+#import "AppDelegate.h"
 
 @interface SceneDelegate ()
 
@@ -16,8 +17,16 @@
 
 - (void)scene:(UIScene *)scene willConnectToSession:(UISceneSession *)session options:(UISceneConnectionOptions *)connectionOptions {
     // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-    // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-    // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    if (self.window) {
+        self.window.backgroundColor = [ThemeHelper appBackgroundColor];
+    } else {
+        // If window is created via storyboard automatically, it might be nil here temporarily,
+        // but we can set it as soon as it's active or let the main window be configured later.
+    }
+}
+
+- (void)sceneWillEnterForeground:(UIScene *)scene {
+    self.window.backgroundColor = [ThemeHelper appBackgroundColor];
 }
 
 
@@ -41,10 +50,6 @@
 }
 
 
-- (void)sceneWillEnterForeground:(UIScene *)scene {
-    // Called as the scene transitions from the background to the foreground.
-    // Use this method to undo the changes made on entering the background.
-}
 
 
 - (void)sceneDidEnterBackground:(UIScene *)scene {

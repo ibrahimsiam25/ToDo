@@ -19,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Fix layout overlapping with Navigation Bar and Tab Bar
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     self.view.backgroundColor = [ThemeHelper appBackgroundColor];
     [ThemeHelper styleTableView:self.tabelView];
     
@@ -28,10 +31,10 @@
     self.tabelView.dataSource = self;
     self.searchBar.delegate = self;
 
-    self.searchBar.backgroundImage = [[UIImage alloc] init];
-    self.searchBar.searchBarStyle = UISearchBarStyleMinimal;
-    self.searchBar.barTintColor = [UIColor clearColor];
-    self.searchBar.backgroundColor = [UIColor clearColor];
+    [ThemeHelper styleSearchBar:self.searchBar];
+    [ThemeHelper styleSegmentedControlsInView:self.view];
+    self.tabelView.rowHeight = 58.0;
+    self.tabelView.sectionHeaderTopPadding = 0;
     
     [self loadTasks];
 }
@@ -43,6 +46,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
     [self loadTasks];
 }
 

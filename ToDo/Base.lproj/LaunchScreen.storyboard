@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -16,63 +15,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DlW-Pf-NhJ">
-                                <rect key="frame" x="111.66666666666669" y="286" width="170" height="170"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="done" translatesAutoresizingMaskIntoConstraints="NO" id="Qgr-VL-2VB">
-                                        <rect key="frame" x="40.999999999999986" y="41" width="88.000000000000014" height="88"/>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstItem="Qgr-VL-2VB" firstAttribute="width" constant="88" id="A8S-SV-0V9"/>
-                                    <constraint firstItem="Qgr-VL-2VB" firstAttribute="centerY" secondItem="DlW-Pf-NhJ" secondAttribute="centerY" id="POj-Ry-MZA"/>
-                                    <constraint firstItem="Qgr-VL-2VB" firstAttribute="height" constant="88" id="fDK-Zg-XCQ"/>
-                                    <constraint firstItem="Qgr-VL-2VB" firstAttribute="centerX" secondItem="DlW-Pf-NhJ" secondAttribute="centerX" id="zHo-Ze-3fQ"/>
-                                </constraints>
-                            </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GetDone" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mn7-oW-kY0">
-                                <rect key="frame" x="107.33333333333333" y="484" width="178.66666666666669" height="51"/>
-                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="42"/>
+                                <rect key="frame" x="97" y="501" width="199" height="60"/>
+                                <fontDescription key="fontDescription" weight="heavy" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="48"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PLAN    FOCUS    DONE" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7Q-z7-C41">
-                                <rect key="frame" x="105.66666666666669" y="545" width="182" height="21"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <color key="textColor" systemColor="secondaryLabelColor"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Plan  •  Focus  •  Done" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7Q-z7-C41">
+                                <rect key="frame" x="114.66666666666669" y="569" width="164" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" white="0.59999999999999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash" translatesAutoresizingMaskIntoConstraints="NO" id="rju-Id-8wZ">
+                                <rect key="frame" x="56.666666666666657" y="201" width="280" height="280"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="280" id="hgt-im"/>
+                                    <constraint firstAttribute="width" constant="280" id="wid-im"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="DlW-Pf-NhJ" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="11L-zs-b4b"/>
-                            <constraint firstItem="DlW-Pf-NhJ" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-80" id="Qmj-Zm-rz0"/>
-                            <constraint firstItem="DlW-Pf-NhJ" firstAttribute="width" constant="170" id="f3s-yN-5vM"/>
-                            <constraint firstItem="Mn7-oW-kY0" firstAttribute="top" secondItem="DlW-Pf-NhJ" secondAttribute="bottom" constant="28" id="kRk-Mr-L1j"/>
-                            <constraint firstItem="Mn7-oW-kY0" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="m1g-OC-l6l"/>
-                            <constraint firstItem="M7Q-z7-C41" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="mAS-IC-Hdy"/>
-                            <constraint firstItem="DlW-Pf-NhJ" firstAttribute="height" constant="170" id="tpr-g0-pP6"/>
-                            <constraint firstItem="M7Q-z7-C41" firstAttribute="top" secondItem="Mn7-oW-kY0" secondAttribute="bottom" constant="10" id="yXC-20-3Wx"/>
-                            <constraint firstItem="M7Q-z7-C41" firstAttribute="bottom" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-48" id="zkM-2A-jYA"/>
+                            <constraint firstItem="rju-Id-8wZ" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-85" id="cnt-y"/>
+                            <constraint firstItem="rju-Id-8wZ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cnt-x"/>
+                            <constraint firstItem="Mn7-oW-kY0" firstAttribute="top" secondItem="rju-Id-8wZ" secondAttribute="bottom" constant="20" id="lbl-t1"/>
+                            <constraint firstItem="Mn7-oW-kY0" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="lbl-c1"/>
+                            <constraint firstItem="M7Q-z7-C41" firstAttribute="top" secondItem="Mn7-oW-kY0" secondAttribute="bottom" constant="8" id="lbl-t2"/>
+                            <constraint firstItem="M7Q-z7-C41" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="lbl-c2"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.671755725190827" y="374.64788732394368"/>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
         </scene>
     </scenes>
     <resources>
-        <image name="done" width="512" height="512"/>
-        <systemColor name="secondaryLabelColor">
-            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="secondarySystemBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="splash" width="765" height="822"/>
     </resources>
 </document>
